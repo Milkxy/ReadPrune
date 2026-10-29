@@ -15,7 +15,8 @@
   },
   "files": {
     ".gitignore": "b7fb2cdb1929f2f10cea2d242003d6787ba26ba2ff19894ca5701d3e717de79d",
-    "README.md": "f2c73c687975238ce8b64ccb3baeadede00720a9c69abdea28e7d470f1b58f89",
+    "Evaluation.md": "4e94a35ca9cf549841e7a1c6bf52e96d32fc305bce9c397012d002fde3346bd4",
+    "README.md": "a7bad57333e1afbe4acf17c456eaa5ed7e1f472c3d22c41d1c625d9e5c03163d",
     "THIRD_PARTY_NOTICES.md": "35e22a43d92d791ae66ea5788ce9ca15261005e7ba17957fccf05a0582a2f0e5",
     "docs/integration.md": "c95ac1d1f073d0ee553d13483728d8f39761f1e4227f7fce91d5a668cc612c90",
     "docs/method.md": "28de7e8efad155c55dd658108cd5d7c8c7fdec72253ae48feaa5a9a7359546a3",
@@ -32,5 +33,7 @@
     "tests/test_core.py": "d2e63594a7fa354bd6dd3b34b077582a7e90423aa65aece4d5f122cd58156e81",
     "tests/test_readout.py": "b5d26448a9b8a48846539a5c14e59c164d8aeee0d729fe07e8fa5b91c3ee53b0",
     "tests/test_spatial.py": "b16c3e5ba4e2bd92068e987ffcf282fb3c402946ae1aff1ef54e2421ad99b255"
-  }
+  },
+  "documentation_revision": "2026-10-29: research-project homepage and evaluation guide",
+  "archive_note": "The v0.1.0 tag and release archive remain unchanged; files below describe this main-branch documentation revision. Algorithm files and validation results are unchanged."
 }
