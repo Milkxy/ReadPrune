@@ -1,0 +1,7 @@
+# CPU validation environment; install the appropriate PyTorch wheel for your platform.
+numpy==1.26.4
+scipy==1.15.3
+torch==2.1.2
+transformers==4.45.2
+safetensors==0.8.0
+Pillow>=10,<12

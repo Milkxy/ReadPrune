@@ -1,0 +1,36 @@
+{
+  "version": "0.1.0",
+  "date": "2026-10-29",
+  "scope": "ReadPrune reference core; no NDR, weights, datasets, server launchers, or optimized end-to-end runtime",
+  "validation": {
+    "cpu_tests_passed": 25,
+    "cpu_tests_skipped": 0,
+    "torch": "2.1.2",
+    "transformers": "4.45.2",
+    "numpy": "1.26.4",
+    "scipy": "1.15.3",
+    "safetensors": "0.8.0",
+    "offline_install": "passed",
+    "synthetic_installed_example": "576 to 64 tokens; original vectors preserved"
+  },
+  "files": {
+    ".gitignore": "b7fb2cdb1929f2f10cea2d242003d6787ba26ba2ff19894ca5701d3e717de79d",
+    "README.md": "f2c73c687975238ce8b64ccb3baeadede00720a9c69abdea28e7d470f1b58f89",
+    "THIRD_PARTY_NOTICES.md": "35e22a43d92d791ae66ea5788ce9ca15261005e7ba17957fccf05a0582a2f0e5",
+    "docs/integration.md": "c95ac1d1f073d0ee553d13483728d8f39761f1e4227f7fce91d5a668cc612c90",
+    "docs/method.md": "28de7e8efad155c55dd658108cd5d7c8c7fdec72253ae48feaa5a9a7359546a3",
+    "docs/reproducibility.md": "65d1932a09d9d5b5cb11df1456af1a45d3ab84e03f4ed67bed1a62bfddb731c7",
+    "examples/clip_readout.py": "4cbcfd07c85d23c8fbce17f163c9916c36a914b7aadbd3d3805c87ea64fded9a",
+    "examples/select_from_features.py": "a523242be5eb9e81edec97191f395aa2fbeb4bdcc1b3fbb9921206c6893c49ca",
+    "pyproject.toml": "26fe4a513ef71c0b69418ee8c1fb2287b5268cec10c9c6be23782f0471ecdbdd",
+    "readprune/__init__.py": "64b8c02b6b06675557107f5f4deb7bf493e599f4d18b41924020fb6f4750aa82",
+    "readprune/_math.py": "7614fb6c14b92396df370218747f4613c92da591adeb8b545476d82a46fd1b37",
+    "readprune/readout.py": "64b90fc259f183cb362862e0d4922f9d238ecf53d910157f9fd46056a713ecaa",
+    "readprune/selection.py": "ed93f41653f28be6344d05ed41de65d647eaad9045170c9360e59fec2e388a8a",
+    "readprune/spatial.py": "af891382282094c32e770e7a67adcc7849af8af4282f9a0ef2684257f3252f76",
+    "requirements-reference.txt": "dd4bb7fe77cc0caa6aa5ee96b3d4a608427ca2aa240d596b4b94aea163d36727",
+    "tests/test_core.py": "d2e63594a7fa354bd6dd3b34b077582a7e90423aa65aece4d5f122cd58156e81",
+    "tests/test_readout.py": "b5d26448a9b8a48846539a5c14e59c164d8aeee0d729fe07e8fa5b91c3ee53b0",
+    "tests/test_spatial.py": "b16c3e5ba4e2bd92068e987ffcf282fb3c402946ae1aff1ef54e2421ad99b255"
+  }
+}
