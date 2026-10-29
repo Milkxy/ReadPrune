@@ -57,7 +57,7 @@ python -m pip install -e '.[readout]'
 
 **Compatibility.** Readout is validated with PyTorch **2.1.2** and Transformers **4.45.2**. Use a PyTorch build compatible with your platform and CUDA runtime. The tested package versions are recorded in [requirements-reference.txt](requirements-reference.txt); compatibility with later Transformers releases has not been established.
 
-## ⭐️ Quick Start
+## ⭐ Quick Start
 
 ### 1. Select tokens without downloading a model
 
