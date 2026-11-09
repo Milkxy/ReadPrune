@@ -47,15 +47,20 @@ Use native Qwen vectors for geometry and output; do not replace them with CLIP
 features. Position IDs, grid metadata, and attention-mask assembly remain the
 responsibility of the model adapter.
 
-The geometry helper is not a complete Qwen generation adapter. Its validity
+The [Qwen inference adapter](qwen.md) now connects this geometry to dense
+Qwen2.5-VL and Qwen3-VL generation, preserving original mRoPE coordinates,
+physically pruning the prompt, and gathering Qwen3 DeepStack branches at the
+same support. Its separate dependency environment and CLI are described there.
+The geometry helper's validity
 requires the documented mean-color square letterbox and matching target-grid
 convention; other preprocessing or video pooling needs a different mapping.
 The auxiliary branch costs time and memory and must be included in timings.
 
 ## Scope of this first release
 
-This is a reference core release, with synthetic tests and a standalone CLIP
-example. Full benchmark launchers, optimized NeXT execution graphs, and video
+The initial v0.1.0 archive is a reference core release. The current main branch
+also includes single-image Qwen inference with tiny-model tests. Full benchmark
+launchers, optimized NeXT execution graphs, and video
 inference adapters are not part of this release. Consequently, running this
 CPU reference selector does not by itself reproduce every paper table or its
 optimized end-to-end latency numbers.

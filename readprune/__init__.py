@@ -7,4 +7,4 @@ The NumPy/SciPy selection API does not load model libraries. Import
 from .selection import select_tokens
 
 __all__ = ["select_tokens"]
-__version__ = "0.1.0"
+__version__ = "0.2.0"

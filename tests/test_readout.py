@@ -129,7 +129,7 @@ class SafeCheckpointTests(unittest.TestCase):
     def setUp(self):
         self.tmp = TemporaryDirectory(prefix="readprune-test-")
         self.addCleanup(self.tmp.cleanup)
-        self.path = Path(self.tmp.name)
+        self.path = Path(self.tmp.name).resolve()
         torch.manual_seed(119)
         self.config = CLIPConfig(
             projection_dim=4,
@@ -179,6 +179,16 @@ class SafeCheckpointTests(unittest.TestCase):
         (self.path / "pytorch_model.bin").write_bytes(b"not a checkpoint")
         with self.assertRaisesRegex(RuntimeError, "paired model.safetensors missing"):
             self.construct()
+
+    def test_bfloat16_native_checkpoint_initializes_without_changing_values(self):
+        self.write_safe()
+        self.native.to(dtype=torch.bfloat16)
+        before = {key: value.clone() for key, value in self.native.state_dict().items()}
+        readout = self.construct()
+        self.addCleanup(readout.close)
+        self.assertTrue(readout.metadata["alignment_pass"])
+        for key, value in self.native.state_dict().items():
+            torch.testing.assert_close(value, before[key], atol=0, rtol=0)
 
     def test_mismatched_native_checkpoint_is_rejected(self):
         self.state["vision_model.embeddings.class_embedding"][0] += 1

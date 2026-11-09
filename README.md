@@ -5,14 +5,21 @@
 
 **ReadPrune · Reference Implementation**
 
-[Quick Start](#-quick-start) · [Core Implementation](#-core-implementation) · [Evaluation](Evaluation.md) · [Source Release](https://github.com/Milkxy/ReadPrune/releases/tag/v0.1.0)
+[Framework](#framework) · [Quick Start](#-quick-start) · [Qwen Inference](docs/qwen.md) · [Core Implementation](#-core-implementation) · [Evaluation](Evaluation.md) · [Initial Source Release](https://github.com/Milkxy/ReadPrune/releases/tag/v0.1.0)
 
 </div>
 
 ReadPrune selects visual tokens by measuring **how a frozen visual readout responds to the removal of a patch connection, conditioned on the question**. It combines this response with native-feature diversity to retain an exact budget of informative, complementary patches. Selected tokens keep their original representations and spatial order.
 
+## Framework
+
+[![ReadPrune framework: question-conditioned readout influence and native-feature diversity guide exact-budget visual token selection.](docs/readprune_framework.png)](docs/readprune_framework.pdf)
+
+**ReadPrune framework, illustrated on LLaVA.** Selected native tokens are passed unchanged to the frozen language model. Qwen uses an auxiliary CLIP branch for readout; see the [Qwen guide](docs/qwen.md). [View the vector PDF](docs/readprune_framework.pdf).
+
 ## 🎯 News
 
+- **2026-11-10:** Added single-image Qwen2.5-VL and Qwen3-VL inference on `main`, including native mRoPE/DeepStack preservation, separate Qwen dependencies, and offline model tests. See the [Qwen guide](docs/qwen.md). The archived v0.1.0 ZIP predates these additions.
 - **2026-10-29:** Released [v0.1.0](https://github.com/Milkxy/ReadPrune/releases/tag/v0.1.0), including the reference selector, frozen CLIP readout, spatial mapping, examples, and offline tests.
 
 ## 💡 Highlights
@@ -29,8 +36,9 @@ The released method is **ReadPrune**, previously named **FRA-Q2**. Its readout m
 - [x] Frozen CLIP readout and question encoding
 - [x] Exact-budget, CPU FP64 quality–diversity selector
 - [x] Auxiliary CLIP-to-Qwen spatial mapping component
+- [x] Qwen2.5-VL / Qwen3-VL single-image inference and CLI
 - [x] Feature-selection and standalone CLIP examples
-- [x] Offline validation suite — 25 tests passed in the reference environment
+- [x] Offline validation suites for core readout and Qwen model integration
 - [ ] Complete model-specific benchmark runners
 - [ ] Optimized LLaVA-NeXT inference runtime
 - [ ] Video inference adapter
@@ -55,7 +63,12 @@ For CLIP readout and the complete test suite, install the optional dependencies:
 python -m pip install -e '.[readout]'
 ```
 
-**Compatibility.** Readout is validated with PyTorch **2.1.2** and Transformers **4.45.2**. Use a PyTorch build compatible with your platform and CUDA runtime. The tested package versions are recorded in [requirements-reference.txt](requirements-reference.txt); compatibility with later Transformers releases has not been established.
+**Compatibility.** The original CLIP reference environment uses PyTorch **2.1.2** and Transformers **4.45.2**. Use a PyTorch build compatible with your platform and CUDA runtime. Its tested versions are recorded in [requirements-reference.txt](requirements-reference.txt). The separate Qwen environment below also validates the shared readout; other Transformers versions are not covered.
+
+For Qwen, create a **separate environment** and install `python -m pip install -e '.[qwen]'`.
+This includes CLIP readout support with PyTorch **2.6.0** and Transformers **4.57.6**.
+Do not combine the `readout` and `qwen` extras in one environment. See
+[Qwen installation and generation](docs/qwen.md) and [requirements-qwen.txt](requirements-qwen.txt).
 
 ## ⭐ Quick Start
 
@@ -109,11 +122,12 @@ The example loads local safetensors weights and does not download a checkpoint. 
 
 | Component | Code entry point | Purpose |
 |:--|:--|:--|
-| Connection ablation | [`ablate_cls_connections`](readprune/readout.py#L69) | Remove a patch connection and renormalize attention while retaining the CLS self-connection. |
-| Visual readout | [`Readout.image`](readprune/readout.py#L311) | Recompute the nonlinear CLS tail and return per-patch readout changes. |
-| Question encoding | [`Readout.text`](readprune/readout.py#L345) | Encode the question, with explicit segmentation for long text. |
+| Connection ablation | [`ablate_cls_connections`](readprune/readout.py#L70) | Remove a patch connection and renormalize attention while retaining the CLS self-connection. |
+| Visual readout | [`Readout.image`](readprune/readout.py#L321) | Recompute the nonlinear CLS tail and return per-patch readout changes. |
+| Question encoding | [`Readout.text`](readprune/readout.py#L355) | Encode the question, with explicit segmentation for long text. |
 | Token selection | [`select_tokens`](readprune/selection.py#L10) | Combine response-derived quality with native-feature diversity and gather exactly `K` original vectors. |
 | Qwen grid transfer | [`map_letterbox_features`](readprune/spatial.py#L30) | Transfer signed auxiliary responses to the native grid before computing sensitivity. |
+| Qwen inference | [`QwenReadPrune`](readprune/qwen.py) | Compress native Qwen2.5/Qwen3 tokens, preserve mRoPE and DeepStack, and decode with a compact KV cache. |
 
 ```text
 ReadPrune/
@@ -136,7 +150,7 @@ ReadPrune operates between native visual feature extraction and multimodal seque
 | LLaVA-NeXT | Preserve crop ordering, spatial unpadding, and separator placement through a model-specific adapter. |
 | Qwen | Use an additional frozen CLIP branch for the response, transfer it to the native grid, and retain Qwen's original features and position conventions. |
 
-The Qwen mapping helper is a component, not a complete generation adapter. The current examples do not provide a one-command reproduction of all manuscript tables. Benchmark and timing requirements are collected in [Evaluation.md](Evaluation.md).
+The [Qwen generation adapter](docs/qwen.md) supports dense Qwen2.5-VL and Qwen3-VL with one image per request. Its CLI accepts either a fixed K or an explicit floor/ceil retention ratio. Full benchmark runners and scorers remain separate; the examples do not provide a one-command reproduction of all manuscript tables. Benchmark and timing requirements are collected in [Evaluation.md](Evaluation.md).
 
 ## 📊 Evaluation
 
@@ -147,7 +161,7 @@ CUDA_VISIBLE_DEVICES='' HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 \
   python -m unittest discover -s tests -v
 ```
 
-The release passed **25 tests with no skips**, covering selection, readout, checkpoint pairing, long questions, and spatial mapping. Without the optional dependencies, readout-related tests are skipped. These checks establish implementation properties and do not substitute for full-model evaluation.
+The initial v0.1.0 release passed **25 tests with no skips**. Current `main` also tests BF16 checkpoint hashing and Qwen inference; see [the validation manifest](RELEASE_MANIFEST.json) for the current environment-specific counts. Tests requiring an uninstalled extra are skipped. These checks establish implementation properties and do not substitute for full-model evaluation.
 
 For benchmark setup and complete-request timing, see the [evaluation guide](Evaluation.md). The public CPU reference selector does not include the optimized NeXT runtime; Qwen timing must also account for its auxiliary CLIP branch.
 
@@ -155,6 +169,7 @@ For benchmark setup and complete-request timing, see the [evaluation guide](Eval
 
 - [Method specification](docs/method.md)
 - [Model integration](docs/integration.md)
+- [Qwen2.5-VL / Qwen3-VL inference](docs/qwen.md)
 - [Evaluation guide](Evaluation.md)
 - [Source provenance and validation](docs/reproducibility.md)
 - [Third-party dependencies](THIRD_PARTY_NOTICES.md)
@@ -169,6 +184,6 @@ We thank the developers of [CLIP](https://github.com/openai/CLIP), [Transformers
 
 本仓库发布 ReadPrune（原 FRA-Q2）的核心参考实现。方法通过冻结 CLIP 的连接消融响应衡量视觉 patch 与问题的关联，并结合原生特征的多样性，选择固定数量的原始 Token，保持其表示和空间顺序。
 
-当前版本包含选择器、读出模块、Qwen 空间映射组件、可运行示例和离线测试。完整模型评测脚本、NeXT 优化运行时与视频接口尚未发布；Qwen 适配需要额外冻结 CLIP，其成本应纳入效率测量。安装与使用请按上方说明进行。
+当前版本包含选择器、读出模块、Qwen2.5-VL / Qwen3-VL 单图推理适配、可运行示例和离线测试。Qwen 适配保留原始 mRoPE 坐标，并同步裁剪 Qwen3 的 DeepStack 分支；请在独立环境中安装 `.[qwen]`。完整数据集评测脚本、NeXT 优化运行时与视频接口尚未发布；额外冻结 CLIP 的成本应纳入效率测量。安装与使用请按上方说明进行。
 
 </details>

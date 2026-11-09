@@ -7,6 +7,7 @@ strict same-dtype checkpoint alignment. The text/projection heads are paired.
 from contextlib import contextmanager
 from copy import deepcopy
 import hashlib
+import inspect
 import json
 from pathlib import Path
 import time
@@ -41,7 +42,7 @@ def tensor_hash(tensor):
     value = tensor.detach().contiguous().cpu()
     header = json.dumps({"dtype": str(value.dtype), "shape": list(value.shape)},
                         sort_keys=True).encode()
-    return hashlib.sha256(header + value.numpy().tobytes()).hexdigest()
+    return hashlib.sha256(header + value.reshape(-1).view(torch.uint8).numpy().tobytes()).hexdigest()
 
 
 def state_hash(state):
@@ -200,6 +201,15 @@ class Readout:
                 {key: value for key, value in text_state.items() if key in expected_text_keys},
                 strict=True)
             self.text_model.to(self.device).eval()
+            # Transformers 4.57 returns a structured inner text result directly.
+            # Keep the same pooling path across the reference and Qwen extras.
+            text_forward = self.text_model.text_model.forward
+            if "return_dict" not in inspect.signature(text_forward).parameters:
+                def forward_compatible(*args, return_dict=None, **kwargs):
+                    if return_dict is False:
+                        raise ValueError("Readout requires a structured text output")
+                    return text_forward(*args, **kwargs)
+                self.text_model.text_model.forward = forward_compatible
             self.tokenizer = CLIPTokenizer.from_pretrained(self.clip_path, local_files_only=True)
             self.max_positions = int(config.text_config.max_position_embeddings)
             self.bos_token_id = int(self.tokenizer.bos_token_id)
