@@ -20,6 +20,11 @@ the legacy attention `_shape` helper into the equivalent view/transpose
 operations for Transformers 4.45.2. The response equations and content-length
 weighted text pooling are unchanged.
 
+The Qwen integration update additionally hashes native tensors through a byte
+view so BF16 values need no unsupported NumPy conversion, and adapts the inner
+CLIP text `return_dict` argument for Transformers 4.57.6 without changing its
+pooling. The original 4.45.2 readout environment remains tested separately.
+
 The spatial component preserves the original integer letterbox, bilinear
 patch-center mapping, and floor-retention rules. It transfers signed vectors
 before absolute-value sensitivity is calculated.
@@ -43,6 +48,12 @@ Tests with tiny random CLIP fixtures establish implementation properties;
 they do not replace full-model numerical validation or benchmark evaluation.
 Use the model's native preprocessing, prompt, feature layer, position IDs,
 decoding settings, and official scoring procedure for reported experiments.
+
+The [Qwen adapter](qwen.md) adds actual tiny Qwen2.5-VL and Qwen3-VL model tests
+in its separate `qwen` environment. These include native full-budget logits
+and greedy-ID parity, FP32/BF16 execution, compact KV caches, preserved mRoPE,
+DeepStack support alignment, and local checkpoint/processor loading. Current
+counts and source checksums are recorded in `RELEASE_MANIFEST.json`.
 
 ## Timing
 
