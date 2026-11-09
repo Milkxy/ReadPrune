@@ -2,7 +2,7 @@
 
 [← Back to ReadPrune](README.md)
 
-This page distinguishes the validation commands available in **v0.1.0** from the model-specific integration needed for benchmark evaluation.
+This page distinguishes reference validation and single-image inference from complete benchmark evaluation. The **v0.1.0** archive contains the original core; current `main` also provides [Qwen2.5-VL / Qwen3-VL inference](docs/qwen.md).
 
 ## 1. Validate the reference implementation
 
@@ -13,13 +13,14 @@ CUDA_VISIBLE_DEVICES='' HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 \
   python -m unittest discover -s tests -v
 ```
 
-The release passed **25 tests with no skips** in the recorded reference environment. The tests use synthetic tensors and tiny random CLIP fixtures; they require neither pretrained weights nor benchmark data.
+The initial v0.1.0 release passed **25 tests with no skips** in the recorded reference environment. Current counts are in [RELEASE_MANIFEST.json](RELEASE_MANIFEST.json). Tests use synthetic tensors and tiny random models; they require neither pretrained weights nor benchmark data.
 
 | Test file | Coverage |
 |:--|:--|
 | [`tests/test_core.py`](tests/test_core.py) | Greedy log-determinant selection, the `q²` convention, exact budget, and original token preservation. |
 | [`tests/test_readout.py`](tests/test_readout.py) | Attention connection ablation, nonlinear readout equivalence, checkpoint pairing, long-question encoding, and tensor preservation. |
 | [`tests/test_spatial.py`](tests/test_spatial.py) | Letterbox-to-grid transfer and retention-budget rules. |
+| [`tests/test_qwen.py`](tests/test_qwen.py) | Real tiny Qwen2.5/Qwen3 models, full-budget native parity, mRoPE, DeepStack, KV-cache decoding, and auxiliary CLIP integration; requires `.[qwen]`. |
 
 An installed-package smoke check is also available:
 
@@ -32,7 +33,7 @@ This is a software check, not a benchmark score. Environment versions and source
 
 ## 2. Connect a benchmark model
 
-Full benchmark launchers are not included in this release. Follow [docs/integration.md](docs/integration.md) to connect the reference operations to a model's native visual and generation paths.
+Full benchmark launchers are not included. Qwen users can run [examples/qwen_generate.py](examples/qwen_generate.py) with their local checkpoint and `--check-parity`. Follow [docs/integration.md](docs/integration.md) for the remaining model families and benchmark integration.
 
 For a matched comparison:
 
@@ -42,7 +43,7 @@ For a matched comparison:
 4. Evaluate with the benchmark's prescribed split and metric. For server-scored benchmarks, predictions alone are not a final accuracy result.
 5. Record the checkpoint, dataset split, token budget, configuration, and scoring procedure alongside each result.
 
-For Qwen, the auxiliary frozen CLIP branch and grid transfer are required parts of the described adaptation. The spatial helper alone does not implement model generation. For NeXT, multi-view cropping and unpadding require a model-specific adapter.
+For Qwen, the auxiliary frozen CLIP branch and grid transfer are required parts of the adaptation. The Qwen adapter includes single-image generation, with explicit floor/ceil budget rules and Qwen3 DeepStack alignment; it does not include dataset scoring. For NeXT, multi-view cropping and unpadding require a model-specific adapter.
 
 ## 3. Measure inference cost
 
@@ -54,4 +55,4 @@ Report single-image requests and shared-image caching separately. A reduction in
 
 ## 4. Release traceability
 
-The [v0.1.0 release](https://github.com/Milkxy/ReadPrune/releases/tag/v0.1.0) provides the tested source ZIP and its SHA-256 checksum. `RELEASE_MANIFEST.json` records source-file checksums and validation metadata. Documentation updates on `main` do not replace the versioned archive or rerun the underlying experiments.
+The [v0.1.0 release](https://github.com/Milkxy/ReadPrune/releases/tag/v0.1.0) provides the original core ZIP and its SHA-256 checksum. It predates the Qwen inference addition; use current `main` for the adapter. `RELEASE_MANIFEST.json` records current source checksums and validation metadata. Updates on `main` do not replace the versioned archive or rerun the underlying experiments.

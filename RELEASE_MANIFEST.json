@@ -1,8 +1,44 @@
 {
-  "version": "0.1.0",
-  "date": "2026-10-29",
-  "scope": "ReadPrune reference core; no NDR, weights, datasets, server launchers, or optimized end-to-end runtime",
+  "version": "0.2.0",
+  "date": "2026-11-09",
+  "scope": "ReadPrune reference core plus single-image dense Qwen2.5-VL and Qwen3-VL greedy generation; no NDR, weights, datasets, full benchmark runners, or optimized runtime",
   "validation": {
+    "readout": {
+      "total": 33,
+      "passed": 26,
+      "skipped": 7,
+      "failures": 0,
+      "errors": 0,
+      "python": "3.10.11",
+      "platform": "macOS-26.5.2-arm64-arm-64bit",
+      "packages": {
+        "numpy": "1.26.4",
+        "scipy": "1.15.3",
+        "torch": "2.1.2",
+        "transformers": "4.45.2",
+        "safetensors": "0.8.0",
+        "Pillow": "11.3.0"
+      }
+    },
+    "qwen": {
+      "total": 33,
+      "passed": 33,
+      "skipped": 0,
+      "failures": 0,
+      "errors": 0,
+      "python": "3.10.11",
+      "platform": "macOS-26.5.2-arm64-arm-64bit",
+      "packages": {
+        "numpy": "1.26.4",
+        "scipy": "1.15.3",
+        "torch": "2.6.0",
+        "transformers": "4.57.6",
+        "safetensors": "0.8.0",
+        "Pillow": "11.3.0"
+      }
+    }
+  },
+  "initial_v0_1_0_validation": {
     "cpu_tests_passed": 25,
     "cpu_tests_skipped": 0,
     "torch": "2.1.2",
@@ -13,27 +49,44 @@
     "offline_install": "passed",
     "synthetic_installed_example": "576 to 64 tokens; original vectors preserved"
   },
+  "provenance": {
+    "qwen_sources": {
+      "qwen25_fra_table2_20260916/code/qwen_runtime.py": "232a91ac43f26c9504ec9c6b570451fb17c586b9cbd1028585cfe42433bd3332",
+      "qwen25_fra_table2_20260916/code/fra_qwen_selector.py": "3fb382be77bbce50a58ef511e033c36a969970d5d29f9246c196c0990fb54720",
+      "qwen_clip_followup_a6000_20260922/code/runtime.py": "6b16abc2d1eaae803223ceb61e019d333c831b2df87c125e272280819e141cf8",
+      "qwen_clip_followup_a6000_20260922/code/selector.py": "d0c43927dfb82aae47c8ee351b79d30acdee444ae46e488147716c3b6c0cb1f5"
+    },
+    "extraction": "Reuse published core selector/readout/spatial math; preserve native mRoPE, compact cached decoding and Qwen3 same-support DeepStack; expose floor/ceil/exact budgets; remove NDR, other baselines, schedulers, scoring and machine-specific configuration."
+  },
+  "limitations": [
+    "CPU tiny random models validate implementation contracts, not pretrained-model benchmark accuracy or GPU latency.",
+    "The v0.1.0 archive predates the Qwen adapter; this manifest describes current main source."
+  ],
   "files": {
-    ".gitignore": "b7fb2cdb1929f2f10cea2d242003d6787ba26ba2ff19894ca5701d3e717de79d",
-    "Evaluation.md": "4e94a35ca9cf549841e7a1c6bf52e96d32fc305bce9c397012d002fde3346bd4",
-    "README.md": "c32daff4765c4fc4c35f2ab902259c045b11a12b3156a14a34280e6b687e5623",
+    ".gitignore": "2f377ac255649562f3a1ea8f498f6e6fbb8c53cbb3ddced76adf9ec892ef100a",
+    "Evaluation.md": "3f6566f6fff414cdf8c2436765e9b733e8cd31da97d50d6706b4e66d5c640b7d",
+    "README.md": "bd58db7adeb256684b778ea3e705894dcf65355b63a6414681e0324e5706b467",
     "THIRD_PARTY_NOTICES.md": "35e22a43d92d791ae66ea5788ce9ca15261005e7ba17957fccf05a0582a2f0e5",
-    "docs/integration.md": "c95ac1d1f073d0ee553d13483728d8f39761f1e4227f7fce91d5a668cc612c90",
+    "docs/integration.md": "b2894e6619c19bf257bd981e990c757c536bebf4347b4238f078172b13853df9",
     "docs/method.md": "28de7e8efad155c55dd658108cd5d7c8c7fdec72253ae48feaa5a9a7359546a3",
-    "docs/reproducibility.md": "65d1932a09d9d5b5cb11df1456af1a45d3ab84e03f4ed67bed1a62bfddb731c7",
+    "docs/qwen.md": "4addfb26d6fc32e911f98d3dfda338adea3fbdaca910589a847df1d1f6183e58",
+    "docs/reproducibility.md": "ec6f468f61481bf984d83b2149b2e4195d4ef1fef3c1fec28fde406e943f3863",
     "examples/clip_readout.py": "4cbcfd07c85d23c8fbce17f163c9916c36a914b7aadbd3d3805c87ea64fded9a",
+    "examples/qwen_generate.py": "e70b9bab26f88bfb7d9e099efcf7dee4b4f50056d4eafc0600989ea75d5fe3ab",
     "examples/select_from_features.py": "a523242be5eb9e81edec97191f395aa2fbeb4bdcc1b3fbb9921206c6893c49ca",
-    "pyproject.toml": "26fe4a513ef71c0b69418ee8c1fb2287b5268cec10c9c6be23782f0471ecdbdd",
-    "readprune/__init__.py": "64b8c02b6b06675557107f5f4deb7bf493e599f4d18b41924020fb6f4750aa82",
+    "pyproject.toml": "e0fd983058f5587945fa663aca89466fc42043037c2fe2d22611e06bbabff8cb",
+    "readprune/__init__.py": "1dfbadbd168c688332cd732ccd5f766368d999e1de8d2861d0584afc31fa01c5",
     "readprune/_math.py": "7614fb6c14b92396df370218747f4613c92da591adeb8b545476d82a46fd1b37",
-    "readprune/readout.py": "64b90fc259f183cb362862e0d4922f9d238ecf53d910157f9fd46056a713ecaa",
+    "readprune/qwen.py": "f5f1d5400ba15fd363a7f53f6073ad327e7e6ee9723fcdd7084fa5c4af95b20f",
+    "readprune/qwen_selector.py": "c1dde04dd85fa612bcbf9a1b5a21712552af606a04f5d7bb5e47de93a9cbb335",
+    "readprune/readout.py": "2a251ba6dc02090de84aaad2b0ca5bd62f5bf53e946d419d705e874c78b40214",
     "readprune/selection.py": "ed93f41653f28be6344d05ed41de65d647eaad9045170c9360e59fec2e388a8a",
     "readprune/spatial.py": "af891382282094c32e770e7a67adcc7849af8af4282f9a0ef2684257f3252f76",
+    "requirements-qwen.txt": "df4af012e2da4461581585b8dae4871bdaa9f6596c7469c5945fcae45b2dc58c",
     "requirements-reference.txt": "dd4bb7fe77cc0caa6aa5ee96b3d4a608427ca2aa240d596b4b94aea163d36727",
     "tests/test_core.py": "d2e63594a7fa354bd6dd3b34b077582a7e90423aa65aece4d5f122cd58156e81",
-    "tests/test_readout.py": "b5d26448a9b8a48846539a5c14e59c164d8aeee0d729fe07e8fa5b91c3ee53b0",
+    "tests/test_qwen.py": "1dd5c32ce91d854b0cc67bde705586045ea6492aa9974bd1f8b1e53c8f4d4190",
+    "tests/test_readout.py": "49dea3b2e0f090f704f86178ad259297a13188b4c846f1143982a692cc17b745",
     "tests/test_spatial.py": "b16c3e5ba4e2bd92068e987ffcf282fb3c402946ae1aff1ef54e2421ad99b255"
-  },
-  "documentation_revision": "2026-10-29: research-project homepage and evaluation guide",
-  "archive_note": "The v0.1.0 tag and release archive remain unchanged; files below describe this main-branch documentation revision. Algorithm files and validation results are unchanged."
+  }
 }
