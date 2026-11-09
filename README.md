@@ -5,15 +5,21 @@
 
 **ReadPrune · Reference Implementation**
 
-[Quick Start](#-quick-start) · [Qwen Inference](docs/qwen.md) · [Core Implementation](#-core-implementation) · [Evaluation](Evaluation.md) · [Initial Source Release](https://github.com/Milkxy/ReadPrune/releases/tag/v0.1.0)
+[Framework](#framework) · [Quick Start](#-quick-start) · [Qwen Inference](docs/qwen.md) · [Core Implementation](#-core-implementation) · [Evaluation](Evaluation.md) · [Initial Source Release](https://github.com/Milkxy/ReadPrune/releases/tag/v0.1.0)
 
 </div>
 
 ReadPrune selects visual tokens by measuring **how a frozen visual readout responds to the removal of a patch connection, conditioned on the question**. It combines this response with native-feature diversity to retain an exact budget of informative, complementary patches. Selected tokens keep their original representations and spatial order.
 
+## Framework
+
+[![ReadPrune framework: question-conditioned readout influence and native-feature diversity guide exact-budget visual token selection.](docs/readprune_framework.png)](docs/readprune_framework.pdf)
+
+**ReadPrune framework, illustrated on LLaVA.** Selected native tokens are passed unchanged to the frozen language model. Qwen uses an auxiliary CLIP branch for readout; see the [Qwen guide](docs/qwen.md). [View the vector PDF](docs/readprune_framework.pdf).
+
 ## 🎯 News
 
-- **2026-11-09:** Added single-image Qwen2.5-VL and Qwen3-VL inference on `main`, including native mRoPE/DeepStack preservation, separate Qwen dependencies, and offline model tests. See the [Qwen guide](docs/qwen.md). The archived v0.1.0 ZIP predates these additions.
+- **2026-11-10:** Added single-image Qwen2.5-VL and Qwen3-VL inference on `main`, including native mRoPE/DeepStack preservation, separate Qwen dependencies, and offline model tests. See the [Qwen guide](docs/qwen.md). The archived v0.1.0 ZIP predates these additions.
 - **2026-10-29:** Released [v0.1.0](https://github.com/Milkxy/ReadPrune/releases/tag/v0.1.0), including the reference selector, frozen CLIP readout, spatial mapping, examples, and offline tests.
 
 ## 💡 Highlights

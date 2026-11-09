@@ -1,6 +1,6 @@
 {
   "version": "0.2.0",
-  "date": "2026-11-09",
+  "date": "2026-11-10",
   "scope": "ReadPrune reference core plus single-image dense Qwen2.5-VL and Qwen3-VL greedy generation; no NDR, weights, datasets, full benchmark runners, or optimized runtime",
   "validation": {
     "readout": {
@@ -56,7 +56,12 @@
       "qwen_clip_followup_a6000_20260922/code/runtime.py": "6b16abc2d1eaae803223ceb61e019d333c831b2df87c125e272280819e141cf8",
       "qwen_clip_followup_a6000_20260922/code/selector.py": "d0c43927dfb82aae47c8ee351b79d30acdee444ae46e488147716c3b6c0cb1f5"
     },
-    "extraction": "Reuse published core selector/readout/spatial math; preserve native mRoPE, compact cached decoding and Qwen3 same-support DeepStack; expose floor/ceil/exact budgets; remove NDR, other baselines, schedulers, scoring and machine-specific configuration."
+    "extraction": "Reuse published core selector/readout/spatial math; preserve native mRoPE, compact cached decoding and Qwen3 same-support DeepStack; expose floor/ceil/exact budgets; remove NDR, other baselines, schedulers, scoring and machine-specific configuration.",
+    "framework_figure": {
+      "source": "rp_readprune_framework_cvpr_v14",
+      "manuscript_source": "overleaf_cleanup_20261109/clean_source/readprune/figures/rp_readprune_framework_cvpr_v14.pdf",
+      "note": "Unmodified PNG and vector PDF exports of the framework figure used by the current manuscript; illustrated on LLaVA."
+    }
   },
   "limitations": [
     "CPU tiny random models validate implementation contracts, not pretrained-model benchmark accuracy or GPU latency.",
@@ -65,11 +70,13 @@
   "files": {
     ".gitignore": "2f377ac255649562f3a1ea8f498f6e6fbb8c53cbb3ddced76adf9ec892ef100a",
     "Evaluation.md": "3f6566f6fff414cdf8c2436765e9b733e8cd31da97d50d6706b4e66d5c640b7d",
-    "README.md": "bd58db7adeb256684b778ea3e705894dcf65355b63a6414681e0324e5706b467",
+    "README.md": "869ce84aa5a08991422d7c40020f090cd468b98058faced8474e585c521099b9",
     "THIRD_PARTY_NOTICES.md": "35e22a43d92d791ae66ea5788ce9ca15261005e7ba17957fccf05a0582a2f0e5",
     "docs/integration.md": "b2894e6619c19bf257bd981e990c757c536bebf4347b4238f078172b13853df9",
     "docs/method.md": "28de7e8efad155c55dd658108cd5d7c8c7fdec72253ae48feaa5a9a7359546a3",
     "docs/qwen.md": "4addfb26d6fc32e911f98d3dfda338adea3fbdaca910589a847df1d1f6183e58",
+    "docs/readprune_framework.pdf": "b46deb358a1293f4b5a414943f5d105e9d87c9627ec8f3e1d5c4e9ae0530d909",
+    "docs/readprune_framework.png": "dfe550d922bd18ed833d40018cd78e2755fe958ffc096a0a0f4111c28351fe72",
     "docs/reproducibility.md": "ec6f468f61481bf984d83b2149b2e4195d4ef1fef3c1fec28fde406e943f3863",
     "examples/clip_readout.py": "4cbcfd07c85d23c8fbce17f163c9916c36a914b7aadbd3d3805c87ea64fded9a",
     "examples/qwen_generate.py": "e70b9bab26f88bfb7d9e099efcf7dee4b4f50056d4eafc0600989ea75d5fe3ab",
