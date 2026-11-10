@@ -47,12 +47,12 @@ For Qwen, the auxiliary frozen CLIP branch and grid transfer are required parts 
 
 ## 3. Measure inference cost
 
-The public selector is a **CPU FP64 reference implementation**. The optimized NeXT execution-graph runtime used in latency experiments is not included in v0.1.0, so its reported speedup must not be attributed directly to this package.
+The public selector is a **CPU FP64 reference implementation**. The optimized NeXT execution-graph runtime used in latency experiments is not included in this snapshot, so its reported speedup must not be attributed directly to this package.
 
 For complete-request measurements, include preprocessing, the native visual forward, readout, selection, sequence assembly, generation, and output decoding. Include auxiliary CLIP image/text computation and spatial transfer when applicable. Warm up the model and synchronize GPU work at the timing boundaries; keep the same execution optimizations, generation settings, and hardware for both methods.
 
 Report single-image requests and shared-image caching separately. A reduction in retained patches establishes a token-budget reduction, not an end-to-end speedup by itself.
 
-## 4. Release traceability
+## 4. Snapshot integrity
 
-The [v0.1.0 release](https://github.com/Milkxy/ReadPrune/releases/tag/v0.1.0) provides the original core ZIP and its SHA-256 checksum. It predates the Qwen inference addition; use current `main` for the adapter. `RELEASE_MANIFEST.json` records current source checksums and validation metadata. Updates on `main` do not replace the versioned archive or rerun the underlying experiments.
+`RELEASE_MANIFEST.json` records SHA-256 checksums for all other files in this anonymous snapshot and the validation environments for the included source. The snapshot includes the Qwen inference adapter and framework figure. Documentation anonymization does not change the tested Python code or rerun the underlying benchmark experiments.

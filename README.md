@@ -3,9 +3,9 @@
 # Read Before You Prune
 ### Training-Free Visual Token Compression via Question-Conditioned Readout Sensitivity
 
-**ReadPrune · Reference Implementation**
+**ReadPrune · Anonymous Review Supplement**
 
-[Framework](#framework) · [Quick Start](#-quick-start) · [Qwen Inference](docs/qwen.md) · [Core Implementation](#-core-implementation) · [Evaluation](Evaluation.md) · [Initial Source Release](https://github.com/Milkxy/ReadPrune/releases/tag/v0.1.0)
+[Framework](#framework) · [Quick Start](#-quick-start) · [Qwen Inference](docs/qwen.md) · [Core Implementation](#-core-implementation) · [Evaluation](Evaluation.md)
 
 </div>
 
@@ -17,10 +17,13 @@ ReadPrune selects visual tokens by measuring **how a frozen visual readout respo
 
 **ReadPrune framework, illustrated on LLaVA.** Selected native tokens are passed unchanged to the frozen language model. Qwen uses an auxiliary CLIP branch for readout; see the [Qwen guide](docs/qwen.md). [View the vector PDF](docs/readprune_framework.pdf).
 
-## 🎯 News
+## Review package
 
-- **2026-11-10:** Added single-image Qwen2.5-VL and Qwen3-VL inference on `main`, including native mRoPE/DeepStack preservation, separate Qwen dependencies, and offline model tests. See the [Qwen guide](docs/qwen.md). The archived v0.1.0 ZIP predates these additions.
-- **2026-10-29:** Released [v0.1.0](https://github.com/Milkxy/ReadPrune/releases/tag/v0.1.0), including the reference selector, frozen CLIP readout, spatial mapping, examples, and offline tests.
+This self-contained source snapshot includes the reference selector, frozen
+CLIP readout, single-image Qwen2.5-VL and Qwen3-VL inference, offline tests,
+and the framework figure. It contains no model weights or benchmark datasets.
+File checksums and validation environments are recorded in
+[RELEASE_MANIFEST.json](RELEASE_MANIFEST.json).
 
 ## 💡 Highlights
 
@@ -47,10 +50,9 @@ This release contains the reference core. Model weights, benchmark datasets, and
 
 ## 🔧 Installation
 
-The reference environment uses **Python 3.10**. Start with the selector and its NumPy/SciPy dependencies:
+Download and extract the anonymous source ZIP, then open the `ReadPrune` directory. The reference environment uses **Python 3.10**. Start with the selector and its NumPy/SciPy dependencies:
 
 ```bash
-git clone https://github.com/Milkxy/ReadPrune.git
 cd ReadPrune
 python3.10 -m venv .venv
 source .venv/bin/activate
@@ -161,7 +163,7 @@ CUDA_VISIBLE_DEVICES='' HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 \
   python -m unittest discover -s tests -v
 ```
 
-The initial v0.1.0 release passed **25 tests with no skips**. Current `main` also tests BF16 checkpoint hashing and Qwen inference; see [the validation manifest](RELEASE_MANIFEST.json) for the current environment-specific counts. Tests requiring an uninstalled extra are skipped. These checks establish implementation properties and do not substitute for full-model evaluation.
+The Qwen environment passed **33 tests with no skips**. The separate readout environment passed **26 tests**, with **7 Qwen-only tests skipped**. These results cover the unchanged code in this snapshot; see [the validation manifest](RELEASE_MANIFEST.json) for package versions. Tests requiring an uninstalled extra are skipped. These checks establish implementation properties and do not substitute for full-model evaluation.
 
 For benchmark setup and complete-request timing, see the [evaluation guide](Evaluation.md). The public CPU reference selector does not include the optimized NeXT runtime; Qwen timing must also account for its auxiliary CLIP branch.
 
@@ -173,7 +175,6 @@ For benchmark setup and complete-request timing, see the [evaluation guide](Eval
 - [Evaluation guide](Evaluation.md)
 - [Source provenance and validation](docs/reproducibility.md)
 - [Third-party dependencies](THIRD_PARTY_NOTICES.md)
-- [Versioned source archive](https://github.com/Milkxy/ReadPrune/releases/tag/v0.1.0)
 
 ## ❤️ Acknowledgments
 

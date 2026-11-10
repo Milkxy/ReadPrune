@@ -1,6 +1,5 @@
 {
   "version": "0.2.0",
-  "date": "2026-11-10",
   "scope": "ReadPrune reference core plus single-image dense Qwen2.5-VL and Qwen3-VL greedy generation; no NDR, weights, datasets, full benchmark runners, or optimized runtime",
   "validation": {
     "readout": {
@@ -38,50 +37,32 @@
       }
     }
   },
-  "initial_v0_1_0_validation": {
-    "cpu_tests_passed": 25,
-    "cpu_tests_skipped": 0,
-    "torch": "2.1.2",
-    "transformers": "4.45.2",
-    "numpy": "1.26.4",
-    "scipy": "1.15.3",
-    "safetensors": "0.8.0",
-    "offline_install": "passed",
-    "synthetic_installed_example": "576 to 64 tokens; original vectors preserved"
-  },
   "provenance": {
-    "qwen_sources": {
-      "qwen25_fra_table2_20260916/code/qwen_runtime.py": "232a91ac43f26c9504ec9c6b570451fb17c586b9cbd1028585cfe42433bd3332",
-      "qwen25_fra_table2_20260916/code/fra_qwen_selector.py": "3fb382be77bbce50a58ef511e033c36a969970d5d29f9246c196c0990fb54720",
-      "qwen_clip_followup_a6000_20260922/code/runtime.py": "6b16abc2d1eaae803223ceb61e019d333c831b2df87c125e272280819e141cf8",
-      "qwen_clip_followup_a6000_20260922/code/selector.py": "d0c43927dfb82aae47c8ee351b79d30acdee444ae46e488147716c3b6c0cb1f5"
-    },
-    "extraction": "Reuse published core selector/readout/spatial math; preserve native mRoPE, compact cached decoding and Qwen3 same-support DeepStack; expose floor/ceil/exact budgets; remove NDR, other baselines, schedulers, scoring and machine-specific configuration.",
+    "implementation": "Reference selector/readout/spatial mathematics with native mRoPE, compact cached decoding and Qwen3 same-support DeepStack; exact, floor and ceil token budgets.",
     "framework_figure": {
-      "source": "rp_readprune_framework_cvpr_v14",
-      "manuscript_source": "overleaf_cleanup_20261109/clean_source/readprune/figures/rp_readprune_framework_cvpr_v14.pdf",
-      "note": "Unmodified PNG and vector PDF exports of the framework figure used by the current manuscript; illustrated on LLaVA."
+      "png": "docs/readprune_framework.png",
+      "pdf": "docs/readprune_framework.pdf",
+      "note": "Framework figure used in the manuscript, illustrated on LLaVA."
     }
   },
   "limitations": [
-    "CPU tiny random models validate implementation contracts, not pretrained-model benchmark accuracy or GPU latency.",
-    "The v0.1.0 archive predates the Qwen adapter; this manifest describes current main source."
+    "CPU tiny random models validate implementation contracts, not pretrained-model benchmark accuracy or GPU latency."
   ],
   "files": {
     ".gitignore": "2f377ac255649562f3a1ea8f498f6e6fbb8c53cbb3ddced76adf9ec892ef100a",
-    "Evaluation.md": "3f6566f6fff414cdf8c2436765e9b733e8cd31da97d50d6706b4e66d5c640b7d",
-    "README.md": "869ce84aa5a08991422d7c40020f090cd468b98058faced8474e585c521099b9",
+    "Evaluation.md": "01d61629afb355deeb463898aa0995f193745213de1e8d61bff507ec5858043d",
+    "README.md": "a891ecf9566c7fde226f18d18b67d92f2f4b1193c4cd1b3ff7ec262ad9771b3b",
     "THIRD_PARTY_NOTICES.md": "35e22a43d92d791ae66ea5788ce9ca15261005e7ba17957fccf05a0582a2f0e5",
     "docs/integration.md": "b2894e6619c19bf257bd981e990c757c536bebf4347b4238f078172b13853df9",
     "docs/method.md": "28de7e8efad155c55dd658108cd5d7c8c7fdec72253ae48feaa5a9a7359546a3",
     "docs/qwen.md": "4addfb26d6fc32e911f98d3dfda338adea3fbdaca910589a847df1d1f6183e58",
     "docs/readprune_framework.pdf": "b46deb358a1293f4b5a414943f5d105e9d87c9627ec8f3e1d5c4e9ae0530d909",
     "docs/readprune_framework.png": "dfe550d922bd18ed833d40018cd78e2755fe958ffc096a0a0f4111c28351fe72",
-    "docs/reproducibility.md": "ec6f468f61481bf984d83b2149b2e4195d4ef1fef3c1fec28fde406e943f3863",
+    "docs/reproducibility.md": "3ef555182455c7914aaecc39fe64667100a8f71759a2a54f11897779d7d63b4f",
     "examples/clip_readout.py": "4cbcfd07c85d23c8fbce17f163c9916c36a914b7aadbd3d3805c87ea64fded9a",
     "examples/qwen_generate.py": "e70b9bab26f88bfb7d9e099efcf7dee4b4f50056d4eafc0600989ea75d5fe3ab",
     "examples/select_from_features.py": "a523242be5eb9e81edec97191f395aa2fbeb4bdcc1b3fbb9921206c6893c49ca",
-    "pyproject.toml": "e0fd983058f5587945fa663aca89466fc42043037c2fe2d22611e06bbabff8cb",
+    "pyproject.toml": "8d1559b7394d4fcda4f21125b3e365ee016068a618b611f8befe8e389512393c",
     "readprune/__init__.py": "1dfbadbd168c688332cd732ccd5f766368d999e1de8d2861d0584afc31fa01c5",
     "readprune/_math.py": "7614fb6c14b92396df370218747f4613c92da591adeb8b545476d82a46fd1b37",
     "readprune/qwen.py": "f5f1d5400ba15fd363a7f53f6073ad327e7e6ee9723fcdd7084fa5c4af95b20f",
@@ -95,5 +76,7 @@
     "tests/test_qwen.py": "1dd5c32ce91d854b0cc67bde705586045ea6492aa9974bd1f8b1e53c8f4d4190",
     "tests/test_readout.py": "49dea3b2e0f090f704f86178ad259297a13188b4c846f1143982a692cc17b745",
     "tests/test_spatial.py": "b16c3e5ba4e2bd92068e987ffcf282fb3c402946ae1aff1ef54e2421ad99b255"
-  }
+  },
+  "distribution": "Anonymous review supplement",
+  "validation_note": "Results from the verified reference release apply to the byte-identical Python source, examples, tests, and dependency pins in this snapshot. Only documentation and distribution metadata were anonymized."
 }
