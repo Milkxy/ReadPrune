@@ -2,13 +2,7 @@
 
 ## Frozen algorithm
 
-The original reference sources were frozen for the ReadPrune/FRA-Q2 image
-experiments. SHA-256 identifiers of those original files are:
-
-| Component | Original SHA-256 |
-|---|---|
-| FP64 set mathematics | `00ad89f24eb62a12b7ac94341f7d1a887373484f6dd3b702ebdc5a066dfa3054` |
-| CLIP readout | `05c0113bf66ebef47d573e256c8fbd1ec0eaea1566a6e4a3dd3fa261af8de8dd` |
+This anonymous snapshot contains the reference implementation used for the ReadPrune image experiments. Checksums for the included files are recorded in `RELEASE_MANIFEST.json`.
 
 Public `_math.py` preserves the retained function bodies and removes the unused
 exchange-repair branch. `selection.py` makes the FRA-Q2 call explicit:
