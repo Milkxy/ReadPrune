@@ -15,7 +15,7 @@ ReadPrune selects visual tokens by measuring **how a frozen visual readout respo
 
 [![ReadPrune framework: question-conditioned readout influence and native-feature diversity guide exact-budget visual token selection.](docs/readprune_framework.png)](docs/readprune_framework.pdf)
 
-**ReadPrune framework, illustrated on LLaVA.** Selected native tokens are passed unchanged to the frozen language model. Qwen uses an auxiliary CLIP branch for readout; see the [Qwen guide](docs/qwen.md). [View the vector PDF](docs/readprune_framework.pdf).
+**ReadPrune framework, illustrated on single-view, CLIP-based LLaVA.** Cached states support intact (teal) and CLS-connection-ablated (orange) readouts. The resulting alignment changes guide selection of unmodified native visual tokens. The inset shows a recorded 64/576 selection; the yellow box marks a manual reference region for the displayed question and is never a selector input. Qwen uses an auxiliary CLIP branch for readout; see the [Qwen guide](docs/qwen.md). [View the vector PDF](docs/readprune_framework.pdf).
 
 ## 🎯 News
 
