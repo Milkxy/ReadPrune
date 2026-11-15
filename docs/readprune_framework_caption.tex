@@ -1,0 +1,20 @@
+% Concise framework caption; implementation details are defined in the method.
+\textbf{ReadPrune framework.} The diagram shows the single-view
+LLaVA-1.5/CLIP pathway; all model parameters remain frozen.
+\textbf{(1) Readout influence.} With the final visual block's input $H$ fixed,
+each intervention removes the CLS connection to one patch across all heads,
+preserves the CLS self-connection, and renormalizes attention.
+$A_h$ separates the intact CLS row from independent intervention rows;
+columns index CLS and patch keys, and values $V_h$ remain fixed.
+The shared frozen tail $\Phi_H$ produces unit readouts $e$ and $e_{-i}$.
+Their differences $R_i=e-e_{-i}$ yield $\delta=Rt$, using the unit question
+embedding $t$ from the paired frozen CLIP text encoder.
+\textbf{(2) Influence-guided selection.} The bounded map $g$ converts
+$|\delta|$ into quality weights $q$. Native projected tokens $X$ define the
+signed cosine Gram matrix $B$ with fixed ridge.
+The kernel $L=DBD$, with $D=\operatorname{diag}(q^2)$, combines quality and diversity.
+Deterministic greedy conditional log-determinant selection obtains exactly
+$K$ indices $S$; raster-order gathering returns unchanged $X_S$ to the language model.
+Card counts, matrix shading, and layer depth are schematic;
+darker cards in $H$ and $V_h$ denote CLS.
+The lower-right inset shows the recorded selection of 64 out of 576 patches.
