@@ -70,13 +70,14 @@
   "files": {
     ".gitignore": "2f377ac255649562f3a1ea8f498f6e6fbb8c53cbb3ddced76adf9ec892ef100a",
     "Evaluation.md": "3f6566f6fff414cdf8c2436765e9b733e8cd31da97d50d6706b4e66d5c640b7d",
-    "README.md": "145cd3f4ec451b0a23ca67f6ed628518af0c5c8b1b7abc9faad8d1fcd93c2a37",
+    "README.md": "442f203ef729f123a0a6549fe74f18ead250c43619ce5fd401baeb060636c26e",
     "THIRD_PARTY_NOTICES.md": "35e22a43d92d791ae66ea5788ce9ca15261005e7ba17957fccf05a0582a2f0e5",
     "docs/integration.md": "b2894e6619c19bf257bd981e990c757c536bebf4347b4238f078172b13853df9",
     "docs/method.md": "28de7e8efad155c55dd658108cd5d7c8c7fdec72253ae48feaa5a9a7359546a3",
     "docs/qwen.md": "4addfb26d6fc32e911f98d3dfda338adea3fbdaca910589a847df1d1f6183e58",
-    "docs/readprune_framework.pdf": "72ad053db7d3ded6b230a006d583817b049f56bcf7f3d28ed7d53c7a2b331d6f",
-    "docs/readprune_framework.png": "ef6e7aac68a7a28e51adbbe1e748398daa357cf5fa8b9ef2ed77d162e0d4ac0e",
+    "docs/readprune_framework.pdf": "e7c27624de33aeb3ffb652b92947bbe76b6f8d4b3654274257e958cc9393861d",
+    "docs/readprune_framework.png": "9683a25f1f87dd3867fc1d1bb4715d7efa9992d9bd671d16a843373d8e95b020",
+    "docs/readprune_framework_caption.tex": "213a972c5163e547794f4213556c93bd4cf54f33a0adb2b4f5696e77d2fcc48c",
     "docs/reproducibility.md": "ec6f468f61481bf984d83b2149b2e4195d4ef1fef3c1fec28fde406e943f3863",
     "examples/clip_readout.py": "4cbcfd07c85d23c8fbce17f163c9916c36a914b7aadbd3d3805c87ea64fded9a",
     "examples/qwen_generate.py": "e70b9bab26f88bfb7d9e099efcf7dee4b4f50056d4eafc0600989ea75d5fe3ab",
@@ -95,5 +96,11 @@
     "tests/test_qwen.py": "1dd5c32ce91d854b0cc67bde705586045ea6492aa9974bd1f8b1e53c8f4d4190",
     "tests/test_readout.py": "49dea3b2e0f090f704f86178ad259297a13188b4c846f1143982a692cc17b745",
     "tests/test_spatial.py": "b16c3e5ba4e2bd92068e987ffcf282fb3c402946ae1aff1ef54e2421ad99b255"
+  },
+  "documentation_update": {
+    "date": "2026-11-15",
+    "scope": "Accepted framework figure and concise caption; model and selector code unchanged.",
+    "figure": "docs/readprune_framework.pdf",
+    "caption": "docs/readprune_framework_caption.tex"
   }
 }
