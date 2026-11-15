@@ -15,7 +15,15 @@ ReadPrune selects visual tokens by measuring **how a frozen visual readout respo
 
 [![ReadPrune framework: question-conditioned readout influence and native-feature diversity guide exact-budget visual token selection.](docs/readprune_framework.png)](docs/readprune_framework.pdf)
 
-**ReadPrune framework, illustrated on single-view, CLIP-based LLaVA.** Cached states support intact (teal) and CLS-connection-ablated (orange) readouts. The resulting alignment changes guide selection of unmodified native visual tokens. The inset shows a recorded 64/576 selection; the yellow box marks a manual reference region for the displayed question and is never a selector input. Qwen uses an auxiliary CLIP branch for readout; see the [Qwen guide](docs/qwen.md). [View the vector PDF](docs/readprune_framework.pdf).
+**ReadPrune framework.** The diagram shows the single-view LLaVA-1.5/CLIP pathway; all model parameters remain frozen.
+
+**(1) Readout influence.** With the final visual block's input `H` fixed, each intervention removes the CLS connection to one patch across all heads, preserves the CLS self-connection, and renormalizes attention. `A_h` separates the intact CLS row from independent intervention rows; columns index CLS and patch keys, and values `V_h` remain fixed. The shared frozen tail `Phi_H` produces unit readouts `e` and `e_{-i}`. Their differences `R_i = e - e_{-i}` yield `delta = R t`, using the unit question embedding `t` from the paired frozen CLIP text encoder.
+
+**(2) Influence-guided selection.** The bounded map `g` converts `|delta|` into quality weights `q`. Native projected tokens `X` define the signed cosine Gram matrix `B` with fixed ridge. The kernel `L = D B D`, with `D = diag(q²)`, combines quality and diversity. Deterministic greedy conditional log-determinant selection obtains exactly `K` indices `S`; raster-order gathering returns unchanged `X_S` to the language model.
+
+Card counts, matrix shading, and layer depth are schematic; darker cards in `H` and `V_h` denote CLS. The lower-right inset shows the recorded selection of 64 out of 576 patches.
+
+The yellow box is a manual reference region, never a selector input. For Qwen adaptations, see the [Qwen guide](docs/qwen.md). [Vector PDF](docs/readprune_framework.pdf) · [LaTeX caption](docs/readprune_framework_caption.tex).
 
 ## Review package
 

@@ -51,13 +51,14 @@
   "files": {
     ".gitignore": "2f377ac255649562f3a1ea8f498f6e6fbb8c53cbb3ddced76adf9ec892ef100a",
     "Evaluation.md": "01d61629afb355deeb463898aa0995f193745213de1e8d61bff507ec5858043d",
-    "README.md": "b390fb7ce3ef3be44acc37a180a79144a6195fb3f5f8d5e2a9c150b3dc3de232",
+    "README.md": "f40606c2db23dc20b647f7f8d6d8461a2ace1325cb969113928e7f21dbc3dcc9",
     "THIRD_PARTY_NOTICES.md": "35e22a43d92d791ae66ea5788ce9ca15261005e7ba17957fccf05a0582a2f0e5",
     "docs/integration.md": "b2894e6619c19bf257bd981e990c757c536bebf4347b4238f078172b13853df9",
     "docs/method.md": "28de7e8efad155c55dd658108cd5d7c8c7fdec72253ae48feaa5a9a7359546a3",
     "docs/qwen.md": "4addfb26d6fc32e911f98d3dfda338adea3fbdaca910589a847df1d1f6183e58",
-    "docs/readprune_framework.pdf": "72ad053db7d3ded6b230a006d583817b049f56bcf7f3d28ed7d53c7a2b331d6f",
-    "docs/readprune_framework.png": "ef6e7aac68a7a28e51adbbe1e748398daa357cf5fa8b9ef2ed77d162e0d4ac0e",
+    "docs/readprune_framework.pdf": "e7c27624de33aeb3ffb652b92947bbe76b6f8d4b3654274257e958cc9393861d",
+    "docs/readprune_framework.png": "9683a25f1f87dd3867fc1d1bb4715d7efa9992d9bd671d16a843373d8e95b020",
+    "docs/readprune_framework_caption.tex": "213a972c5163e547794f4213556c93bd4cf54f33a0adb2b4f5696e77d2fcc48c",
     "docs/reproducibility.md": "3ef555182455c7914aaecc39fe64667100a8f71759a2a54f11897779d7d63b4f",
     "examples/clip_readout.py": "4cbcfd07c85d23c8fbce17f163c9916c36a914b7aadbd3d3805c87ea64fded9a",
     "examples/qwen_generate.py": "e70b9bab26f88bfb7d9e099efcf7dee4b4f50056d4eafc0600989ea75d5fe3ab",
@@ -78,5 +79,11 @@
     "tests/test_spatial.py": "b16c3e5ba4e2bd92068e987ffcf282fb3c402946ae1aff1ef54e2421ad99b255"
   },
   "distribution": "Anonymous review supplement",
-  "validation_note": "Results from the verified reference release apply to the byte-identical Python source, examples, tests, and dependency pins in this snapshot. Only documentation and distribution metadata were anonymized."
+  "validation_note": "Results from the verified reference release apply to the byte-identical Python source, examples, tests, and dependency pins in this snapshot. Only documentation and distribution metadata were anonymized.",
+  "documentation_update": {
+    "date": "2026-11-15",
+    "scope": "Accepted framework figure and concise caption; model and selector code unchanged.",
+    "figure": "docs/readprune_framework.pdf",
+    "caption": "docs/readprune_framework_caption.tex"
+  }
 }
