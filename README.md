@@ -162,7 +162,7 @@ ReadPrune operates between native visual feature extraction and multimodal seque
 | Model family | Integration requirement |
 |:--|:--|
 | CLIP-based LLaVA | Pair the readout with the native vision weights and select native projected patches from the same image view. |
-| LLaVA-NeXT | Preserve crop ordering, spatial unpadding, and separator placement through a model-specific adapter. |
+| LLaVA-NeXT | Use the [uniform-crop adapter](docs/next.md); preserve native patch values and spatial order, with the documented compressed/full packing conventions. |
 | Qwen | Use an additional frozen CLIP branch for the response, transfer it to the native grid, and retain Qwen's original features and position conventions. |
 
 The [Qwen generation adapter](docs/qwen.md) supports dense Qwen2.5-VL and Qwen3-VL with one image per request. Its CLI accepts either a fixed K or an explicit floor/ceil retention ratio. Full benchmark runners and scorers remain separate; the examples do not provide a one-command reproduction of all manuscript tables. Benchmark and timing requirements are collected in [Evaluation.md](Evaluation.md).
@@ -176,7 +176,7 @@ CUDA_VISIBLE_DEVICES='' HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 \
   python -m unittest discover -s tests -v
 ```
 
-The Qwen environment passed **33 tests with no skips**. The separate readout environment passed **26 tests**, with **7 Qwen-only tests skipped**. These results cover the unchanged code in this snapshot; see [the validation manifest](RELEASE_MANIFEST.json) for package versions. Tests requiring an uninstalled extra are skipped. These checks establish implementation properties and do not substitute for full-model evaluation.
+The combined Qwen/NeXT environment passed **39 tests with no skips**. Earlier release counts are retained as historical validation in [the manifest](RELEASE_MANIFEST.json). Tests requiring an uninstalled extra are skipped. These checks establish implementation properties and do not substitute for full-model evaluation.
 
 For benchmark setup and complete-request timing, see the [evaluation guide](Evaluation.md). The public CPU reference selector does not include the optimized NeXT runtime; Qwen timing must also account for its auxiliary CLIP branch.
 
