@@ -5,7 +5,7 @@
 
 **ReadPrune · Anonymous Review Supplement**
 
-[Framework](#framework) · [Quick Start](#-quick-start) · [Qwen Inference](docs/qwen.md) · [Core Implementation](#-core-implementation) · [Evaluation](Evaluation.md)
+[Framework](#framework) · [Quick Start](#-quick-start) · [Qwen Inference](docs/qwen.md) · [NeXT Inference](docs/next.md) · [Core Implementation](#-core-implementation) · [Evaluation](Evaluation.md)
 
 </div>
 
@@ -28,7 +28,7 @@ The yellow box is a manual reference region, never a selector input. For Qwen ad
 ## Review package
 
 This self-contained source snapshot includes the reference selector, frozen
-CLIP readout, single-image Qwen2.5-VL and Qwen3-VL inference, offline tests,
+CLIP readout, single-image Qwen2.5-VL, Qwen3-VL and uniform-crop NeXT inference, offline tests,
 and the framework figure. It contains no model weights or benchmark datasets.
 File checksums and validation environments are recorded in
 [RELEASE_MANIFEST.json](RELEASE_MANIFEST.json).
@@ -48,6 +48,7 @@ The released method is **ReadPrune**, previously named **FRA-Q2**. Its readout m
 - [x] Exact-budget, CPU FP64 quality–diversity selector
 - [x] Auxiliary CLIP-to-Qwen spatial mapping component
 - [x] Qwen2.5-VL / Qwen3-VL single-image inference and CLI
+- [x] LLaVA-NeXT single-image inference with uniform per-crop budgets
 - [x] Feature-selection and standalone CLIP examples
 - [x] Offline validation suites for core readout and Qwen model integration
 - [ ] Complete model-specific benchmark runners
@@ -79,6 +80,9 @@ For Qwen, create a **separate environment** and install `python -m pip install -
 This includes CLIP readout support with PyTorch **2.6.0** and Transformers **4.57.6**.
 Do not combine the `readout` and `qwen` extras in one environment. See
 [Qwen installation and generation](docs/qwen.md) and [requirements-qwen.txt](requirements-qwen.txt).
+
+For NeXT, install `python -m pip install -e '.[next]'` in the Qwen-compatible environment.
+See the [NeXT guide](docs/next.md) for uniform allocation, image-grid settings and packing conventions.
 
 ## ⭐ Quick Start
 
@@ -137,6 +141,7 @@ The example loads local safetensors weights and does not download a checkpoint. 
 | Question encoding | [`Readout.text`](readprune/readout.py#L355) | Encode the question, with explicit segmentation for long text. |
 | Token selection | [`select_tokens`](readprune/selection.py#L10) | Combine response-derived quality with native-feature diversity and gather exactly `K` original vectors. |
 | Qwen grid transfer | [`map_letterbox_features`](readprune/spatial.py#L30) | Transfer signed auxiliary responses to the native grid before computing sensitivity. |
+| NeXT inference | [`NextReadPrune`](readprune/next.py) | Uniform crop budgets, per-crop readout, unchanged spatially packed vectors and compact generation. |
 | Qwen inference | [`QwenReadPrune`](readprune/qwen.py) | Compress native Qwen2.5/Qwen3 tokens, preserve mRoPE and DeepStack, and decode with a compact KV cache. |
 
 ```text
@@ -180,6 +185,7 @@ For benchmark setup and complete-request timing, see the [evaluation guide](Eval
 - [Method specification](docs/method.md)
 - [Model integration](docs/integration.md)
 - [Qwen2.5-VL / Qwen3-VL inference](docs/qwen.md)
+- [LLaVA-NeXT uniform-crop inference](docs/next.md)
 - [Evaluation guide](Evaluation.md)
 - [Source provenance and validation](docs/reproducibility.md)
 - [Third-party dependencies](THIRD_PARTY_NOTICES.md)
@@ -193,6 +199,6 @@ We thank the developers of [CLIP](https://github.com/openai/CLIP), [Transformers
 
 本仓库发布 ReadPrune（原 FRA-Q2）的核心参考实现。方法通过冻结 CLIP 的连接消融响应衡量视觉 patch 与问题的关联，并结合原生特征的多样性，选择固定数量的原始 Token，保持其表示和空间顺序。
 
-当前版本包含选择器、读出模块、Qwen2.5-VL / Qwen3-VL 单图推理适配、可运行示例和离线测试。Qwen 适配保留原始 mRoPE 坐标，并同步裁剪 Qwen3 的 DeepStack 分支；请在独立环境中安装 `.[qwen]`。完整数据集评测脚本、NeXT 优化运行时与视频接口尚未发布；额外冻结 CLIP 的成本应纳入效率测量。安装与使用请按上方说明进行。
+当前版本包含选择器、读出模块、Qwen2.5-VL / Qwen3-VL 及 NeXT 均分裁剪预算单图推理适配、可运行示例和离线测试。Qwen 适配保留原始 mRoPE 坐标，并同步裁剪 Qwen3 的 DeepStack 分支；请在独立环境中安装 `.[qwen]`。完整数据集评测脚本、NeXT 优化运行时与视频接口尚未发布；额外冻结 CLIP 的成本应纳入效率测量。安装与使用请按上方说明进行。
 
 </details>

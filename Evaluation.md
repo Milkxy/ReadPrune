@@ -2,7 +2,7 @@
 
 [← Back to ReadPrune](README.md)
 
-This page distinguishes reference validation and single-image inference from complete benchmark evaluation. The **v0.1.0** archive contains the original core; current `main` also provides [Qwen2.5-VL / Qwen3-VL inference](docs/qwen.md).
+This page distinguishes reference validation and single-image inference from complete benchmark evaluation. The **v0.1.0** archive contains the original core; current `main` also provides [NeXT uniform-crop inference](docs/next.md) and [Qwen2.5-VL / Qwen3-VL inference](docs/qwen.md).
 
 ## 1. Validate the reference implementation
 
@@ -20,6 +20,7 @@ The initial v0.1.0 release passed **25 tests with no skips** in the recorded ref
 | [`tests/test_core.py`](tests/test_core.py) | Greedy log-determinant selection, the `q²` convention, exact budget, and original token preservation. |
 | [`tests/test_readout.py`](tests/test_readout.py) | Attention connection ablation, nonlinear readout equivalence, checkpoint pairing, long-question encoding, and tensor preservation. |
 | [`tests/test_spatial.py`](tests/test_spatial.py) | Letterbox-to-grid transfer and retention-budget rules. |
+| [`tests/test_next.py`](tests/test_next.py) | Uniform allocation, spatial packing, real tiny CLIP/NeXT generation and KV caches in FP32/BF16; requires `.[next]`. |
 | [`tests/test_qwen.py`](tests/test_qwen.py) | Real tiny Qwen2.5/Qwen3 models, full-budget native parity, mRoPE, DeepStack, KV-cache decoding, and auxiliary CLIP integration; requires `.[qwen]`. |
 
 An installed-package smoke check is also available:
@@ -39,11 +40,11 @@ For a matched comparison:
 
 1. Keep model weights, image preprocessing, prompts, decoding settings, and evaluator versions fixed between the unpruned model and ReadPrune.
 2. Align the readout response with the native projected patch features. Use the native features for both diversity and the selected output vectors.
-3. Preserve all nonpatch tokens, spatial order, position conventions, masks, and model-specific separator tokens. Count patch and separator budgets separately.
+3. Preserve text tokens and apply the documented model-specific spatial, position, mask and separator conventions. Count patch and separator budgets separately; NeXT packing is detailed in its guide.
 4. Evaluate with the benchmark's prescribed split and metric. For server-scored benchmarks, predictions alone are not a final accuracy result.
 5. Record the checkpoint, dataset split, token budget, configuration, and scoring procedure alongside each result.
 
-For Qwen, the auxiliary frozen CLIP branch and grid transfer are required parts of the adaptation. The Qwen adapter includes single-image generation, with explicit floor/ceil budget rules and Qwen3 DeepStack alignment; it does not include dataset scoring. For NeXT, multi-view cropping and unpadding require a model-specific adapter.
+For Qwen, the auxiliary frozen CLIP branch and grid transfer are required parts of the adaptation. The Qwen adapter includes single-image generation, with explicit floor/ceil budget rules and Qwen3 DeepStack alignment; it does not include dataset scoring. For NeXT, the [uniform-crop adapter](docs/next.md) provides single-image generation. Its compressed path uses spatial packing without unpadding or row separators; the full baseline retains native packing. Record these conventions and both patch/sequence counts.
 
 ## 3. Measure inference cost
 
