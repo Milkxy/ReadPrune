@@ -63,3 +63,17 @@ runtime's reported latency numbers to this package without rerunning matched
 complete-request measurements. Qwen additionally incurs the auxiliary CLIP
 cost; shared-image caching and single-image requests should be reported
 separately.
+
+## NeXT uniform allocation integration
+
+The NeXT adapter reuses the published readout and selector for each native crop.
+It uniformly divides the total patch budget across all crops, and gathers
+unchanged vectors with spatial tile ordering. See [the NeXT guide](next.md) for
+the compressed sequence's unpadding/separator conventions.
+
+The combined Qwen/NeXT environment passed 39 offline tests with no skips using
+PyTorch 2.6.0 and Transformers 4.57.6. This includes real tiny CLIP and NeXT
+models in FP32 and BF16, local checkpoint loading, cached decoding and native
+baseline parity. These tests do not establish full-model benchmark accuracy
+or reproduce optimized GPU latency. Earlier environment counts below/above
+refer to the earlier release, not a rerun of the expanded suite.

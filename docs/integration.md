@@ -36,6 +36,13 @@ Retain all nonpatch tokens and follow the model's position/mask conventions.
 For LLaVA-NeXT, native crops, spatial unpadding, and separator placement require
 the model-specific mapping; do not apply a flat single-view mapping to them.
 
+## LLaVA-NeXT
+
+The [NeXT guide](next.md) documents the executable single-image adapter, uniform
+per-crop budgets, native crop-grid configuration and compact spatial packing.
+The compressed path omits unpadding and row separators, while the full baseline
+uses the native packing path. Selected patch values remain unchanged.
+
 ## Qwen
 
 Qwen has no CLIP CLS token. The paper's adapter uses an **additional frozen
@@ -59,7 +66,7 @@ The auxiliary branch costs time and memory and must be included in timings.
 ## Scope of this first release
 
 The initial v0.1.0 archive is a reference core release. The current main branch
-also includes single-image Qwen inference with tiny-model tests. Full benchmark
+also includes single-image Qwen and uniform-crop NeXT inference with tiny-model tests. Full benchmark
 launchers, optimized NeXT execution graphs, and video
 inference adapters are not part of this release. Consequently, running this
 CPU reference selector does not by itself reproduce every paper table or its
