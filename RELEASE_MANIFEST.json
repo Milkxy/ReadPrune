@@ -1,8 +1,76 @@
 {
-  "version": "0.2.0",
-  "date": "2026-11-10",
-  "scope": "ReadPrune reference core plus single-image dense Qwen2.5-VL and Qwen3-VL greedy generation; no NDR, weights, datasets, full benchmark runners, or optimized runtime",
-  "validation": {
+  "version": "0.3.0",
+  "date": "2026-11-16",
+  "scope": "ReadPrune reference core plus single-image Qwen2.5-VL, Qwen3-VL and uniform-crop LLaVA-NeXT generation; no NDR, weights, datasets, full benchmark runners or optimized runtime",
+  "initial_v0_1_0_validation": {
+    "cpu_tests_passed": 25,
+    "cpu_tests_skipped": 0,
+    "torch": "2.1.2",
+    "transformers": "4.45.2",
+    "numpy": "1.26.4",
+    "scipy": "1.15.3",
+    "safetensors": "0.8.0",
+    "offline_install": "passed",
+    "synthetic_installed_example": "576 to 64 tokens; original vectors preserved"
+  },
+  "provenance": {
+    "qwen_sources": {
+      "qwen25_fra_table2_20260916/code/qwen_runtime.py": "232a91ac43f26c9504ec9c6b570451fb17c586b9cbd1028585cfe42433bd3332",
+      "qwen25_fra_table2_20260916/code/fra_qwen_selector.py": "3fb382be77bbce50a58ef511e033c36a969970d5d29f9246c196c0990fb54720",
+      "qwen_clip_followup_a6000_20260922/code/runtime.py": "6b16abc2d1eaae803223ceb61e019d333c831b2df87c125e272280819e141cf8",
+      "qwen_clip_followup_a6000_20260922/code/selector.py": "d0c43927dfb82aae47c8ee351b79d30acdee444ae46e488147716c3b6c0cb1f5"
+    },
+    "extraction": "Reuse published core selector/readout/spatial math; preserve native mRoPE, compact cached decoding and Qwen3 same-support DeepStack; expose floor/ceil/exact budgets; remove NDR, other baselines, schedulers, scoring and machine-specific configuration.",
+    "framework_figure": {
+      "source": "rp_readprune_framework_cvpr_v18",
+      "updated": "2026-11-13",
+      "note": "User-supplied, unmodified v18 vector PDF and matching PNG export; illustrated on single-view, CLIP-based LLaVA. The manual yellow reference box is not an input to the selector. No algorithm code or reported test results changed."
+    },
+    "next_integration": "Portable HF integration of uniform per-crop selection and spatial packing; shared frozen readout and CPU FP64 selector. No optimized execution graphs."
+  },
+  "limitations": [
+    "CPU tiny random models validate implementation contracts, not pretrained-model benchmark accuracy or GPU latency.",
+    "The v0.1.0 archive predates the Qwen adapter; this manifest describes current main source."
+  ],
+  "files": {
+    ".gitignore": "2f377ac255649562f3a1ea8f498f6e6fbb8c53cbb3ddced76adf9ec892ef100a",
+    "Evaluation.md": "bb8420bc22e607699a2fcf7e50e4c29a83c1edfae4d356c074c99ba130df8abb",
+    "README.md": "beaf30e8e45136d099d8ca9554f9a3853d3d323f515bf0ddffddedc4f42a27df",
+    "THIRD_PARTY_NOTICES.md": "35e22a43d92d791ae66ea5788ce9ca15261005e7ba17957fccf05a0582a2f0e5",
+    "docs/integration.md": "f6a628e75764b496116f2508199ba29a67f99b10dbe21494b92b28037214c7cf",
+    "docs/method.md": "28de7e8efad155c55dd658108cd5d7c8c7fdec72253ae48feaa5a9a7359546a3",
+    "docs/next.md": "0573441452ae05a8261b3b43fa87d981da7f99b4db5633ac3602ac3dbdf17be2",
+    "docs/qwen.md": "4addfb26d6fc32e911f98d3dfda338adea3fbdaca910589a847df1d1f6183e58",
+    "docs/readprune_framework.pdf": "e7c27624de33aeb3ffb652b92947bbe76b6f8d4b3654274257e958cc9393861d",
+    "docs/readprune_framework.png": "9683a25f1f87dd3867fc1d1bb4715d7efa9992d9bd671d16a843373d8e95b020",
+    "docs/readprune_framework_caption.tex": "213a972c5163e547794f4213556c93bd4cf54f33a0adb2b4f5696e77d2fcc48c",
+    "docs/reproducibility.md": "3e1cfae74be31d021d093607d0543a320a3a4e861839f2e2edd3d23cdf7e7d60",
+    "examples/clip_readout.py": "4cbcfd07c85d23c8fbce17f163c9916c36a914b7aadbd3d3805c87ea64fded9a",
+    "examples/next_generate.py": "2429083d51f1b435b1aa8170e2b17d71766a50c6f51168e4753c0a953e030114",
+    "examples/qwen_generate.py": "e70b9bab26f88bfb7d9e099efcf7dee4b4f50056d4eafc0600989ea75d5fe3ab",
+    "examples/select_from_features.py": "a523242be5eb9e81edec97191f395aa2fbeb4bdcc1b3fbb9921206c6893c49ca",
+    "pyproject.toml": "2f489fd90c99dee1d2275c42901007f1416707bc41965b8f0abd7038bcc92019",
+    "readprune/__init__.py": "14c193b4c417fb56e1a8f62751b19ee5efe59cbc14bdcdce65bee39acb702277",
+    "readprune/_math.py": "7614fb6c14b92396df370218747f4613c92da591adeb8b545476d82a46fd1b37",
+    "readprune/next.py": "f786e1b2d6be27729c6eb664f198cad914631f446b9a961507ee0baede6d7efa",
+    "readprune/qwen.py": "f5f1d5400ba15fd363a7f53f6073ad327e7e6ee9723fcdd7084fa5c4af95b20f",
+    "readprune/qwen_selector.py": "c1dde04dd85fa612bcbf9a1b5a21712552af606a04f5d7bb5e47de93a9cbb335",
+    "readprune/readout.py": "2a251ba6dc02090de84aaad2b0ca5bd62f5bf53e946d419d705e874c78b40214",
+    "readprune/selection.py": "ed93f41653f28be6344d05ed41de65d647eaad9045170c9360e59fec2e388a8a",
+    "readprune/spatial.py": "af891382282094c32e770e7a67adcc7849af8af4282f9a0ef2684257f3252f76",
+    "requirements-qwen.txt": "df4af012e2da4461581585b8dae4871bdaa9f6596c7469c5945fcae45b2dc58c",
+    "requirements-reference.txt": "dd4bb7fe77cc0caa6aa5ee96b3d4a608427ca2aa240d596b4b94aea163d36727",
+    "tests/test_core.py": "d2e63594a7fa354bd6dd3b34b077582a7e90423aa65aece4d5f122cd58156e81",
+    "tests/test_next.py": "92f389468e66ec6a9520974aa9335fb5355200ec154d45b44ac9d6c5745fb00b",
+    "tests/test_qwen.py": "1dd5c32ce91d854b0cc67bde705586045ea6492aa9974bd1f8b1e53c8f4d4190",
+    "tests/test_readout.py": "49dea3b2e0f090f704f86178ad259297a13188b4c846f1143982a692cc17b745",
+    "tests/test_spatial.py": "b16c3e5ba4e2bd92068e987ffcf282fb3c402946ae1aff1ef54e2421ad99b255"
+  },
+  "documentation_update": {
+    "date": "2026-11-16",
+    "scope": "Uniform-crop NeXT reference adapter and guide; approved framework assets preserved."
+  },
+  "previous_release_validation": {
     "readout": {
       "total": 33,
       "passed": 26,
@@ -38,69 +106,27 @@
       }
     }
   },
-  "initial_v0_1_0_validation": {
-    "cpu_tests_passed": 25,
-    "cpu_tests_skipped": 0,
-    "torch": "2.1.2",
-    "transformers": "4.45.2",
-    "numpy": "1.26.4",
-    "scipy": "1.15.3",
-    "safetensors": "0.8.0",
-    "offline_install": "passed",
-    "synthetic_installed_example": "576 to 64 tokens; original vectors preserved"
-  },
-  "provenance": {
-    "qwen_sources": {
-      "qwen25_fra_table2_20260916/code/qwen_runtime.py": "232a91ac43f26c9504ec9c6b570451fb17c586b9cbd1028585cfe42433bd3332",
-      "qwen25_fra_table2_20260916/code/fra_qwen_selector.py": "3fb382be77bbce50a58ef511e033c36a969970d5d29f9246c196c0990fb54720",
-      "qwen_clip_followup_a6000_20260922/code/runtime.py": "6b16abc2d1eaae803223ceb61e019d333c831b2df87c125e272280819e141cf8",
-      "qwen_clip_followup_a6000_20260922/code/selector.py": "d0c43927dfb82aae47c8ee351b79d30acdee444ae46e488147716c3b6c0cb1f5"
-    },
-    "extraction": "Reuse published core selector/readout/spatial math; preserve native mRoPE, compact cached decoding and Qwen3 same-support DeepStack; expose floor/ceil/exact budgets; remove NDR, other baselines, schedulers, scoring and machine-specific configuration.",
-    "framework_figure": {
-      "source": "rp_readprune_framework_cvpr_v18",
-      "updated": "2026-11-13",
-      "note": "User-supplied, unmodified v18 vector PDF and matching PNG export; illustrated on single-view, CLIP-based LLaVA. The manual yellow reference box is not an input to the selector. No algorithm code or reported test results changed."
+  "validation": {
+    "qwen_next": {
+      "total": 39,
+      "passed": 39,
+      "skipped": 0,
+      "failures": 0,
+      "errors": 0,
+      "python": "3.10.11",
+      "packages": {
+        "numpy": "1.26.4",
+        "scipy": "1.15.3",
+        "torch": "2.6.0",
+        "transformers": "4.57.6",
+        "safetensors": "0.8.0",
+        "Pillow": "11.3.0",
+        "torchvision": "0.21.0",
+        "sentencepiece": "0.2.3"
+      },
+      "scope": "Offline CPU real tiny models; FP32/BF16 NeXT, paired CLIP, allocation, packing, local loading and cached generation",
+      "editable_install": "passed",
+      "next_cli_help": "passed"
     }
-  },
-  "limitations": [
-    "CPU tiny random models validate implementation contracts, not pretrained-model benchmark accuracy or GPU latency.",
-    "The v0.1.0 archive predates the Qwen adapter; this manifest describes current main source."
-  ],
-  "files": {
-    ".gitignore": "2f377ac255649562f3a1ea8f498f6e6fbb8c53cbb3ddced76adf9ec892ef100a",
-    "Evaluation.md": "3f6566f6fff414cdf8c2436765e9b733e8cd31da97d50d6706b4e66d5c640b7d",
-    "README.md": "442f203ef729f123a0a6549fe74f18ead250c43619ce5fd401baeb060636c26e",
-    "THIRD_PARTY_NOTICES.md": "35e22a43d92d791ae66ea5788ce9ca15261005e7ba17957fccf05a0582a2f0e5",
-    "docs/integration.md": "b2894e6619c19bf257bd981e990c757c536bebf4347b4238f078172b13853df9",
-    "docs/method.md": "28de7e8efad155c55dd658108cd5d7c8c7fdec72253ae48feaa5a9a7359546a3",
-    "docs/qwen.md": "4addfb26d6fc32e911f98d3dfda338adea3fbdaca910589a847df1d1f6183e58",
-    "docs/readprune_framework.pdf": "e7c27624de33aeb3ffb652b92947bbe76b6f8d4b3654274257e958cc9393861d",
-    "docs/readprune_framework.png": "9683a25f1f87dd3867fc1d1bb4715d7efa9992d9bd671d16a843373d8e95b020",
-    "docs/readprune_framework_caption.tex": "213a972c5163e547794f4213556c93bd4cf54f33a0adb2b4f5696e77d2fcc48c",
-    "docs/reproducibility.md": "ec6f468f61481bf984d83b2149b2e4195d4ef1fef3c1fec28fde406e943f3863",
-    "examples/clip_readout.py": "4cbcfd07c85d23c8fbce17f163c9916c36a914b7aadbd3d3805c87ea64fded9a",
-    "examples/qwen_generate.py": "e70b9bab26f88bfb7d9e099efcf7dee4b4f50056d4eafc0600989ea75d5fe3ab",
-    "examples/select_from_features.py": "a523242be5eb9e81edec97191f395aa2fbeb4bdcc1b3fbb9921206c6893c49ca",
-    "pyproject.toml": "e0fd983058f5587945fa663aca89466fc42043037c2fe2d22611e06bbabff8cb",
-    "readprune/__init__.py": "1dfbadbd168c688332cd732ccd5f766368d999e1de8d2861d0584afc31fa01c5",
-    "readprune/_math.py": "7614fb6c14b92396df370218747f4613c92da591adeb8b545476d82a46fd1b37",
-    "readprune/qwen.py": "f5f1d5400ba15fd363a7f53f6073ad327e7e6ee9723fcdd7084fa5c4af95b20f",
-    "readprune/qwen_selector.py": "c1dde04dd85fa612bcbf9a1b5a21712552af606a04f5d7bb5e47de93a9cbb335",
-    "readprune/readout.py": "2a251ba6dc02090de84aaad2b0ca5bd62f5bf53e946d419d705e874c78b40214",
-    "readprune/selection.py": "ed93f41653f28be6344d05ed41de65d647eaad9045170c9360e59fec2e388a8a",
-    "readprune/spatial.py": "af891382282094c32e770e7a67adcc7849af8af4282f9a0ef2684257f3252f76",
-    "requirements-qwen.txt": "df4af012e2da4461581585b8dae4871bdaa9f6596c7469c5945fcae45b2dc58c",
-    "requirements-reference.txt": "dd4bb7fe77cc0caa6aa5ee96b3d4a608427ca2aa240d596b4b94aea163d36727",
-    "tests/test_core.py": "d2e63594a7fa354bd6dd3b34b077582a7e90423aa65aece4d5f122cd58156e81",
-    "tests/test_qwen.py": "1dd5c32ce91d854b0cc67bde705586045ea6492aa9974bd1f8b1e53c8f4d4190",
-    "tests/test_readout.py": "49dea3b2e0f090f704f86178ad259297a13188b4c846f1143982a692cc17b745",
-    "tests/test_spatial.py": "b16c3e5ba4e2bd92068e987ffcf282fb3c402946ae1aff1ef54e2421ad99b255"
-  },
-  "documentation_update": {
-    "date": "2026-11-15",
-    "scope": "Accepted framework figure and concise caption; model and selector code unchanged.",
-    "figure": "docs/readprune_framework.pdf",
-    "caption": "docs/readprune_framework_caption.tex"
   }
 }
