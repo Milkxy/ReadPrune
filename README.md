@@ -162,7 +162,7 @@ ReadPrune operates between native visual feature extraction and multimodal seque
 | Model family | Integration requirement |
 |:--|:--|
 | CLIP-based LLaVA | Pair the readout with the native vision weights and select native projected patches from the same image view. |
-| LLaVA-NeXT | Preserve crop ordering, spatial unpadding, and separator placement through a model-specific adapter. |
+| LLaVA-NeXT | Use the [uniform-crop adapter](docs/next.md); preserve native patch values and spatial order, with the documented compressed/full packing conventions. |
 | Qwen | Use an additional frozen CLIP branch for the response, transfer it to the native grid, and retain Qwen's original features and position conventions. |
 
 The [Qwen generation adapter](docs/qwen.md) supports dense Qwen2.5-VL and Qwen3-VL with one image per request. Its CLI accepts either a fixed K or an explicit floor/ceil retention ratio. Full benchmark runners and scorers remain separate; the examples do not provide a one-command reproduction of all manuscript tables. Benchmark and timing requirements are collected in [Evaluation.md](Evaluation.md).
